@@ -14,7 +14,6 @@ def getUniqueSkills(skills):
 	for keyword in skills: 
 		for item in keyword['keywords']:
 			a.add(item)
-	print a
 
 #Get Aaron's Skills from his resume
 getUniqueSkills(getSkills(loadResume("\data\\resumes\\aaron.json")))

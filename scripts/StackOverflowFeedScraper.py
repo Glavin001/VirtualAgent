@@ -43,47 +43,16 @@ relevant categories are in respective sets avoiding duplicates
 
 categories = getUniqueAttributes(myFeed, 'category')
 
-print categories
-
 titles = getUniqueAttributes(myFeed, 'title')
-
-print '\n' + str(titles)
 
 link = getUniqueAttributes(myFeed, 'link')
 
-print '\n' + str(link)
-
 locations = getUniqueAttributes(myFeed, 'location')
-
-print '\n' + str(locations)
 
 dates = getUniqueAttributes(myFeed, 'date')
 
-print '\n' + str(dates)
-
 authors = getUniqueAttributes(myFeed, 'author')
-
-print '\n' + str(authors)
 
 updated = getUniqueAttributes(myFeed, 'updated')
 
-print '\n' + str(updated)
-
 descriptions = getUniqueAttributes(myFeed, 'description')
-
-print '\n' + str(descriptions)
-
-"""
-Getting all tags from stackoverflow
-
-import json
-jsonObject = json.load(open("tags.json", 'r'))
-tags = set()
-print jsonObject
-for dictionary in jsonObject['items']:
-    for key in dictionary:
-        if key == 'name':
-            tags.add(dictionary[key])
-
-print tags
-"""
