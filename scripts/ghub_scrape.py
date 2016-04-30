@@ -1,7 +1,21 @@
 import json
 import urllib2
+import os
+import string
 
-skill_list = ['C++', 'C', 'c', 'C#', 'c#', 'c++']
+PATH_TO_DATA = os.getcwd()[:-7] + 'data/'
+
+# Load skill-map.json
+
+with open(PATH_TO_DATA + 'skill-map.json') as data_file:
+	data = json.load(data_file)
+
+
+skill_list = []
+
+for entry in data:
+
+	skill_list.append(entry.encode('utf-8'))
 
 def get_jobs(page=0):
 	''' Returns all jobs on a specified github careers page as a json object.
@@ -32,7 +46,19 @@ def get_keywords(text, key_words_list):
 
 	return found_words
 
+def get_all_jobs():
 
-print get_description(get_jobs()[0])
+	index = 0
+	while get_jobs(index) != []:
+
+		get_jobs(index)
+
+	return 'none'
+
+print type(get_jobs()[0])
+
+
+
+
 
 
