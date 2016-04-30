@@ -72,3 +72,18 @@ print '\n' + str(updated)
 descriptions = getUniqueAttributes(myFeed, 'description')
 
 print '\n' + str(descriptions)
+
+"""
+Getting all tags from stackoverflow
+
+import json
+jsonObject = json.load(open("tags.json", 'r'))
+tags = set()
+print jsonObject
+for dictionary in jsonObject['items']:
+    for key in dictionary:
+        if key == 'name':
+            tags.add(dictionary[key])
+
+print tags
+"""
