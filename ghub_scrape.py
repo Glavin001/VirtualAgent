@@ -33,6 +33,3 @@ def get_keywords(text, key_words_list):
 	return found_words
 
 
-print get_description(get_jobs()[0])
-
-
