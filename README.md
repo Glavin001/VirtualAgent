@@ -12,3 +12,9 @@ Clone this repository!
 ```bash
 python scripts/jsonresume-scraper.py
 ```
+
+### Build Skill Relationships
+
+```bash
+python scripts/skill-relationships.py
+```
