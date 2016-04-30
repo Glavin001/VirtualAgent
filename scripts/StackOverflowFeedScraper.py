@@ -109,5 +109,5 @@ with open('stackoverflow_unique_values.json', 'w') as f:
 		if index == len(uniques)-1:
 			f.write(a + "]")
 		else:
-			f.write(a + ", ")
+			f.write('"' + a + '"' + ", ")
 	f.close()
