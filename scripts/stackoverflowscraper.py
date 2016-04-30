@@ -30,27 +30,45 @@ def getUniqueAttributes(Feed, key, allowDuplicates = False):
 			if not allowDuplicates:
 				uniqueAttributes.add((post[key.encode('utf-8')]))
 			else:
-				uniqueAttributes.append((post[key]))
+				uniqueAttributes.append((post[key.encode('utf-8')]))
 	return uniqueAttributes
 
 #Initialize feed
 myFeed = initializeFeed('http://stackoverflow.com/jobs/feed')
 
-#Compute all unique categories of stackoverflow job postings
+"""
+Compute all unique categories of stackoverflow job postings, all 
+relevant categories are in respective sets avoiding duplicates
+"""
+
 categories = getUniqueAttributes(myFeed, 'category')
+
 print categories
-#Compute all unique titles of stackoverflow job postings
+
 titles = getUniqueAttributes(myFeed, 'title')
 
 print '\n' + str(titles)
 
+link = getUniqueAttributes(myFeed, 'link')
 
-"""
-#Code to show nicely all the titles
-for theString in titles:
-	print '\n'
-	count += 1
-	print count
-	#print u' '.join(theString).encode('utf-8').strip()
-	print theString.encode('utf-8')
-"""
+print '\n' + str(link)
+
+locations = getUniqueAttributes(myFeed, 'location')
+
+print '\n' + str(locations)
+
+dates = getUniqueAttributes(myFeed, 'date')
+
+print '\n' + str(dates)
+
+authors = getUniqueAttributes(myFeed, 'author')
+
+print '\n' + str(authors)
+
+updated = getUniqueAttributes(myFeed, 'updated')
+
+print '\n' + str(updated)
+
+descriptions = getUniqueAttributes(myFeed, 'description')
+
+print '\n' + str(descriptions)
