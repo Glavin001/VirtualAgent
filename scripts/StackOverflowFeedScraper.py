@@ -9,6 +9,7 @@ Requirements: feedparser
 """
 
 import feedparser
+import os
 
 #Initializes feed to a RSS link
 def initializeFeed(link):
@@ -80,7 +81,7 @@ Requirements: just python (comes with json)
 import json, os
 
 p = os.path.abspath('..')
-jsonObject = json.load(open(p + "\data\\tags.json", 'r'))
+jsonObject = json.load(open(p + "/data/tags.json", 'r'))
 tags = set()
 for dictionary in jsonObject['items']:
     for key in dictionary:
@@ -129,33 +130,33 @@ with open(p + "\data\\stackoverflow_unique_values.json", 'w') as f:
 
 mainJobMap = {}
 jobMap = {}
-s = ""
-with open(p + "\data\\jobs.json", 'w') as f:
-	s += ('"jobs": [')
+job_list = []
+
+with open(p + "\data\jobs.json", 'w') as f:
 
 	for i in range(0, len(titles)):
-
 		
-		s+="{"
+		s = {}
 
+		s['title'] = jobpostings[0][i].encode('utf-8')
+		s['description'] = jobpostings[1][i].encode('utf-8')
+		s['date_created'] = jobpostings[2][i].encode('utf-8')
+		s['full_time'] = "N/A"
+		s['location'] = jobpostings[3][i].encode('utf-8')
+		s['company_name'] = jobpostings[4][i].encode('utf-8')
+		s['company_url'] = "N/A"
+		s['source'] = "StackOverflow Job Postings"
+		s['apply'] = "how to contact and apply"
+		s['post_url'] = jobpostings[5][i].encode('utf-8')
 
-		s += '"title": ' + '"' + jobpostings[0][i].encode('utf-8') + '", '
-		s += '"description": ' + '"' + jobpostings[1][i].encode('utf-8') + '", '
-		s += '"date_created": ' + '"' + jobpostings[2][i].encode('utf-8') + '", '
-		s += '"full_time": "N/A", '
-		s += '"location": ' + '"' + jobpostings[3][i].encode('utf-8') + '", '
-		s += '"company_name": ' + '"' + jobpostings[4][i].encode('utf-8') + '", '
-		s += '"company_url": "N/A", '
-		s += '"source": "StackOverflow Job Postings", '
-		s += '"apply": "how to contact and apply", '
-		s += '"post_url": ' + '"' + jobpostings[5][i].encode('utf-8') + '"'
-		if i != len(titles)-1:
-			s += "}, "
-		else:
-			s += "}"
+		job_list.append(s)
 
-	s += "]"
-	mainJobMap['jobs'] = jobMap
-	jsonString = json.dumps(s)
-	f.write(jsonString)
+	#mainJobMap['jobs'] = jobMap
+	#jsonString = json.dumps(job_list)
+	#f.write(jsonString)
 	f.close()
+
+PATH_TO_DATA = os.getcwd()[:-7] + 'data/'
+
+with open(PATH_TO_DATA + 'StackOverflow_Jobs.json', 'w') as outfile:
+	json.dump(job_list, outfile)

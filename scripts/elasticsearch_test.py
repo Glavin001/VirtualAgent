@@ -8,10 +8,6 @@ es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
 
 PATH_TO_DATA = os.getcwd()[:-7] + 'data/'
 
-#es.index(index='my-index', doc_type='test-type', id=i, body=json_object[0])
- 
-
-
 with open(PATH_TO_DATA + 'unique_keywords.json') as data_file:
 	data = json.load(data_file)
 
