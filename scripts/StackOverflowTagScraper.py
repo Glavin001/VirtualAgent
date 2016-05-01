@@ -10,13 +10,15 @@ tags
 
 Requirements: just python (comes with json)
 """
-import json
-jsonObject = json.load(open("data/tags.json", 'r'))
+
+import json, os
+p = os.path.abspath('..')
+jsonObject = json.load(open(p + "\data\\tags.json", 'r'))
+
 tags = set()
-print jsonObject
 for dictionary in jsonObject['items']:
     for key in dictionary:
         if key == 'name':
             tags.add(dictionary[key])
 
-print tags
+#print tags

@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 from elasticsearch import Elasticsearch
 import urllib2
 import requests
@@ -31,9 +29,7 @@ for i in range(len(data)):
 	es.index(index='github_jobs', doc_type='test-type',id = i, body = data[i])	
 
 print es.search(index='github_jobs', body={"query": {"match": {'description':'interest'}}})
-=======
-=======
->>>>>>> glavin
+
 from datetime import datetime
 from elasticsearch_dsl import DocType, String, Date, Integer
 from elasticsearch_dsl.connections import connections

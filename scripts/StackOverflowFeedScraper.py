@@ -43,47 +43,71 @@ relevant categories are in respective sets avoiding duplicates
 
 categories = getUniqueAttributes(myFeed, 'category')
 
-print categories
-
 titles = getUniqueAttributes(myFeed, 'title')
-
-print '\n' + str(titles)
 
 link = getUniqueAttributes(myFeed, 'link')
 
-print '\n' + str(link)
-
 locations = getUniqueAttributes(myFeed, 'location')
-
-print '\n' + str(locations)
 
 dates = getUniqueAttributes(myFeed, 'date')
 
-print '\n' + str(dates)
-
 authors = getUniqueAttributes(myFeed, 'author')
-
-print '\n' + str(authors)
 
 updated = getUniqueAttributes(myFeed, 'updated')
 
-print '\n' + str(updated)
-
 descriptions = getUniqueAttributes(myFeed, 'description')
 
-print '\n' + str(descriptions)
-
 """
-Getting all tags from stackoverflow
+Author: Conor Scott
+Date: 04/29/16
+Volta Hackathon
 
-import json
-jsonObject = json.load(open("tags.json", 'r'))
+Purpose: Unique tags (Like Java) from stackoverflow are obtained from 
+the json file I copied from their website API that obtains 
+them 100 at a time, and compiled 1000 of the most popular
+tags
+
+Requirements: just python (comes with json)
+"""
+import json, os
+
+p = os.path.abspath('..')
+jsonObject = json.load(open(p + "\data\\tags.json", 'r'))
 tags = set()
-print jsonObject
 for dictionary in jsonObject['items']:
     for key in dictionary:
         if key == 'name':
             tags.add(dictionary[key])
 
-print tags
-"""
+def loadResume(filename):
+	p = os.path.abspath('..')
+	jsonObject = json.load(open(p + filename, 'r'))
+	return jsonObject
+
+def getSkills(resume):
+	return resume['skills']
+
+def getUniqueSkills(skills):
+	a = set()
+	for keyword in skills: 
+		for item in keyword['keywords']:
+			a.add(item)
+	return a
+
+#Get Aaron's Skills from his resume
+#uniqueSkills = getUniqueSkills(getSkills(loadResume("\data\\resumes\\aaron.json")))
+
+#unionOfCategoriesAndSkills = list(set(categories) | set(uniqueSkills))
+
+uniques = sorted(list(set(categories) | set(tags)))
+
+nonUTF8 = []
+with open('stackoverflow_unique_values.json', 'w') as f:
+	f.write("[")
+	for index, tag in enumerate(uniques):
+		a = tag.decode('utf-8')
+		if index == len(uniques)-1:
+			f.write(a + "]")
+		else:
+			f.write('"' + a + '"' + ", ")
+	f.close()
