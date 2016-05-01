@@ -109,6 +109,15 @@ skill_rel['parents'].ix[Software_parents_index] = 'Development'
 DevOps_parents_index = np.ndarray.tolist(skill_rel[~skill_rel['parents'].str.contains("^((?!DevOps).)*$")].index.values)
 skill_rel['parents'].ix[DevOps_parents_index] = 'Development'
 
+# Move HTML to Web Development
+HTML_parents_index = np.ndarray.tolist(skill_rel[~skill_rel['parents'].str.contains("^((?!HTML).)*$")].index.values)
+skill_rel['parents'].ix[HTML_parents_index] = 'Web Development'
+
+# Drop update later
+
+skill_rel = skill_rel[(skill_rel.keywords != 'update later')]
+skill_rel = skill_rel[(skill_rel.keywords != '')]
+
 
 # print skill_rel['keywords'].value_counts()
 # print skill_rel['parents'].value_counts()
@@ -117,10 +126,17 @@ skill_rel['parents'].ix[DevOps_parents_index] = 'Development'
 
 # export unique wordlist
 
-pd.Series(skill_rel["keywords"].unique()).to_json(PATH_TO_DATA + "unique_keywords.json",orient='records')
+# pd.Series(skill_rel["keywords"].unique()).to_json(PATH_TO_DATA + "unique_keywords.json",orient='records')
 
+print skill_rel[(skill_rel.parents == 'Web Development')]['keywords'].value_counts()
+print skill_rel[(skill_rel.parents == 'Databases')]['keywords'].unique()
+print skill_rel[(skill_rel.parents == 'Backend')]['keywords'].unique()
+print skill_rel[(skill_rel.parents == 'Frontend')]['keywords'].unique()
 
-
+# print skill_rel[(skill_rel.parents == 'Web Development')]['keywords'].unique
+# print skill_rel[(skill_rel.parents == 'Databases')]['keywords'].unique()
+# print skill_rel[(skill_rel.parents == 'Backend')]['keywords'].unique()
+# print skill_rel[(skill_rel.parents == 'Frontend')]['keywords'].unique()
 
 
 
