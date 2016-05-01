@@ -15,6 +15,9 @@
     <!-- Optional theme -->
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"> -->
 
+    <!-- Load c3.css -->
+    <link href="bower_components/c3/c3.css" rel="stylesheet" type="text/css">
+
     <!-- Custom styles -->
     <link rel="stylesheet" href="styles.css">
 
@@ -79,6 +82,7 @@
         </div>
 
         <div role="tabpanel" class="tab-pane fade" id="syncing">
+
           <div class="spinner">
             <div class="dot1"></div>
             <div class="dot2"></div>
@@ -94,10 +98,37 @@
           </div>
         </div>
 
-        <div role="tabpanel" class="tab-pane fade" id="jsonresume">
-          <h1>Let's import your <a href="https://jsonresume.org/" target="_blank">JSON Resume!</h1>
+        <div role="tabpanel" class="tab-pane fade" id="json-resume">
+          <h1>Let's import your <a href="https://jsonresume.org/" target="_blank">JSON Resume!</a></h1>
           <p>JSON Resume is a standard created to empower developers.</p>
-          <a class="btn btn-primary" data-toggle="tab" href="#github">Import all the things!</a>
+          <br>
+          <label for="import-json-resume-file">Upload your JSON Resume!</label>
+          <br>
+          <input type="file" id="import-json-resume-file">
+          <a class="btn btn-primary use-resume-btn" data-toggle="tab" href="#jobs">Let's get me some jobs!</a>
+          <hr>
+          <p>If you do not have a JSON Resume follow these instructions:
+            <ol style="text-align:left;">
+              <li>Add Bookmarklet:
+                <a class="btn btn-info btn-xs bookmarklet" href="javascript:(function()%7B(function()%20%7B%2F*%20Check%20if%20LinkedIn%20*%2Fvar%20redirectProfileUrl%20%3D%20'https%3A%2F%2Fwww.linkedin.com%2Fprofile%2Fview'%3Bif%20(location.hostname%20!%3D%3D%20'www.linkedin.com')%20%7Bwindow.location.href%20%3D%20redirectProfileUrl%3Breturn%3B%7Dvar%20basics%20%3D%20%7B%7D%3Bbasics.name%20%3D%20%24('.profile-overview-content%20.full-name')%5B0%5D.textContent%3Bbasics.label%20%3D%20%24('%23headline-container%20.title.field-text')%5B0%5D.textContent%3Bbasics.picture%20%3D%20%24('.profile-picture%20img')%5B0%5D.getAttribute('src')%3Bbasics.location%20%3D%20%24('%23location%20.locality')%5B0%5D.textContent%3Bvar%20profileUrl%20%3D%20%24('.public-profile-url')%5B0%5D.textContent%3Bbasics.website%20%3D%20profileUrl%3Bbasics.summary%20%3D%20%24('%23summary-item%20.summary%20.field-text')%5B0%5D.textContent%3Bbasics.profiles%20%3D%20%5B%7Bnetwork%3A%20%22LinkedIn%22%2C%22url%22%3A%20profileUrl%7D%5D%3B%2F*%20Work%20*%2Fvar%20%24experience%20%3D%20Array.prototype.slice.call(%24('%23background-experience-container%20.entity-container'))%3Bvar%20work%20%3D%20%24experience.map(function(%24job)%20%7Bvar%20job%20%3D%20%7Bposition%3A%20%24('header%20.main-header-field%20.field-text'%2C%20%24job)%5B0%5D.innerHTML%2Ccompany%3A%20%24('header%20.sub-header-field%20.field-text'%2C%20%24job)%5B0%5D.innerHTML%2Csummary%3A%20%24('.body-field%20.field-text'%2C%20%24job)%5B0%5D.innerHTML%2C%7D%3Bjob.highlights%20%3D%20job.summary.split('%3Cbr%3E%5Cn')%3Breturn%20job%3B%7D)%3B%2F*%20Education%20*%2Fvar%20%24education%20%3D%20Array.prototype.slice.call(%24('%23background-education%20.entity-container'))%3Bvar%20education%20%3D%20%24education.map(function(%24edu)%20%7Bvar%20edu%20%3D%20%7Binstitution%3A%20%24('header%20.main-header-field%20.field-text'%2C%20%24edu)%5B0%5D.innerHTML%2Carea%3A%20%24('header%20.sub-header-field%20.field-text%20.major'%2C%20%24edu)%5B0%5D.innerHTML%2CstudyType%3A%20%24('header%20.sub-header-field%20.field-text%20.degree'%2C%20%24edu)%5B0%5D.innerHTML%2Ccourses%3A%20%5B%5D%7D%3Breturn%20edu%3B%7D)%3Bvar%20resume%20%3D%20%7Bbasics%3A%20basics%2Cwork%3A%20work%2Ceducation%3A%20education%7D%3Bvar%20resumeStr%20%3D%20JSON.stringify(resume%2C%20undefined%2C%202)%3BdownloadData('linkedin-json-resume.json'%2C%20resumeStr%2C%20%22application%2Fjson%22)%3B%2F**%40desc%20Download%20the%20given%20data%20to%20the%20users%20computer%20as%20a%20file%40param%20%7Bstring%7D%20name%20-%20Name%20of%20the%20file%40param%20%7Bstring%7D%20data%20-%20Contents%20of%20the%20file%40param%20%7Bstring%7D%20type%20-%20MIME%20type%20of%20the%20file*%2Ffunction%20downloadData(name%2C%20data%2C%20type)%20%7B%2F*%20Browser%20support%20*%2Fwindow.URL%20%3D%20window.URL%20%7C%7C%20window.webkitURL%3B%2F*%20Arg%20defaults%20*%2Ftype%20%3D%20type%20%7C%7C%20%22text%2Fplain%22%3Bname%20%3D%20name%20%7C%7C%20%22download%22%3Bdata%20%3D%20data%20%7C%7C%20%22%22%3B%2F*%20Create%20Blob%20*%2Fvar%20blob%3Bif%20(data%20instanceof%20Blob)%20%7Bblob%20%3D%20data%3B%7D%20else%20%7Bblob%20%3D%20new%20Blob(%5Bdata%5D%2C%20%7Btype%3A%20type%7D)%3B%7Dvar%20url%20%3D%20window.URL.createObjectURL(blob)%3B%2F*%20Create%20link%20*%2Fvar%20link%20%3D%20document.createElement(%22a%22)%3Blink.download%20%3D%20name%3Blink.href%20%3D%20url%3B%2F*%20Download!%20*%2F%2F*%20See%20http%3A%2F%2Fstackoverflow.com%2Fa%2F25047811%2F2578205%20for%20more%20details%20*%2Fvar%20event%20%3D%20document.createEvent(%22MouseEvents%22)%3Bevent.initMouseEvent(%22click%22%2C%20true%2C%20false%2C%20window%2C%200%2C%200%2C%200%2C%200%2C%200%2C%20false%2C%20false%2C%20false%2C%20false%2C%200%2C%20null)%3Blink.dispatchEvent(event)%3B%7D%7D)()%7D)()">
+            LinkedIn to JSON Resume</a>
+              </li>
+              <li>Go to <a href="https://www.linkedin.com/profile/view" class="" target="_blank">your LinkedIn Profile</a></li>
+              <li>Run the <strong>LinkedIn to JSON Resume</strong> Bookmarklet. It will download a JSON Resume extracted from your LinkedIn profile.</li>
+              <li>Come back and upload your JSON Resume here!</li>
+            </ol>
+          </p>
+          <!-- <div id="language-chart"></div> -->
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="jobs">
+
+          <h1>Job Finding Time!</h1>
+
+          <div class="spinner">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
+          </div>
 
         </div>
 
@@ -166,6 +197,9 @@
     <script>
       var socket = io();
     </script>
+    <!-- Load d3.js and c3.js -->
+    <script src="bower_components/d3/d3.min.js" charset="utf-8"></script>
+    <script src="bower_components/c3/c3.min.js"></script>
     <script src="main.js"></script>
 
 </body>

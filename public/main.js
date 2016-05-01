@@ -1,15 +1,21 @@
+function showTab(tabId) {
+  $('.tab-content .tab-pane').removeClass('active in');
+  $('.tab-content .tab-pane#' + tabId).addClass('active in');
+};
+
 $(document).ready(function() {
 
   console.log('Simply Sift!');
 
-  const tabPanes = {
-    github: $('.tab-pane#github')
+  let data = window.agent_data = {
+
   };
 
-  function showTab(tabId) {
-    $('.tab-content .tab-pane').removeClass('active in');
-    $('.tab-content .tab-pane#' + tabId).addClass('active in');
-  }
+  const tabPanes = {
+    github: $('.tab-pane#github'),
+    resume: $('.tab-pane#json-resume'),
+  };
+
 
   // Update progress bar
   socket.on('status', function(status) {
@@ -26,12 +32,45 @@ $(document).ready(function() {
     socket.emit('sync-github-user', username, function(error, results) {
       console.log(error, results);
       var projects = results.repos;
+      // Save projects
+      data.projects = projects;
+
       var langMap = projectsByLanguage(projects);
+      data.langMap = langMap;
       console.log('langMap', langMap);
       var langScores = _.mapValues(langMap, function(v, k) {
         return _.sumBy(v, 'languages.' + k);
       });
+      data.langScores = langScores;
       console.log('langScores', langScores);
+
+      // Generate chart of language stats
+      // var chart = c3.generate({
+      //   bindto: '#language-chart',
+      //   data: {
+      //     columns: [
+      //       ['data1', 30, 200, 100, 400, 150, 250],
+      //       ['data2', 130, 100, 140, 200, 150, 50]
+      //     ],
+      //     type: 'bar'
+      //   },
+      //   bar: {
+      //     width: {
+      //       ratio: 0.5 // this makes bar width 50% of length between ticks
+      //     }
+      //     // or
+      //     //width: 100 // this makes bar width 100px
+      //   }
+      // });
+      // setTimeout(function() {
+      //   chart.load({
+      //     columns: [
+      //       ['data3', 130, -150, 200, 300, -200, 100]
+      //     ]
+      //   });
+      // }, 1000);
+
+      showTab('json-resume');
     });
 
   });
@@ -51,7 +90,21 @@ $(document).ready(function() {
         tabPanes.github.removeClass('checking-username invalid-username').addClass('valid-username');
       }
     });
+  });
 
+  $('#import-json-resume-file').change((event) => {
+    let $el = $(event.currentTarget);
+    // Source: http://stackoverflow.com/a/13747921/2578205
+    let file = $el.prop('files')[0];
+    let reader = new FileReader();
+    reader.onload = () => {
+      let data = reader.result;
+      let json = JSON.parse(data);
+      console.log('JSON Resume', json);
+      data.json_resume = json;
+      tabPanes.resume.addClass('has-resume');
+    };
+    reader.readAsText(file);
   });
 
   function projectsByLanguage(projects) {

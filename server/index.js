@@ -4,12 +4,20 @@ const express = require('express');
 const GitHub = require('github');
 const async = require('async');
 const _ = require('lodash');
+const elasticsearch = require('elasticsearch');
 
 // Create server
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+// Elasticsearch
+const db = new elasticsearch.Client({
+  host: 'localhost:9200',
+  log: 'trace'
+});
+
+// GitHub
 let github = new GitHub({
   version: '3.0.0'
 });
@@ -21,20 +29,22 @@ const githubPageSize = 100;
 
 // Static: http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
   res.sendfile('index.html');
 });
 
 // Socket.io API
-io.on('connection', function(socket){
+io.on('connection', function(socket) {
   console.log('a user connected');
 
-  socket.on('disconnect', function(){
+  socket.on('disconnect', function() {
     console.log('user disconnected');
   });
 
   socket.on('check-github-username', function(username, fn) {
-    github.user.getFrom({user: username}, fn);
+    github.user.getFrom({
+      user: username
+    }, fn);
   });
 
   socket.on('sync-github-user', function(username, fn) {
@@ -45,13 +55,15 @@ io.on('connection', function(socket){
     });
 
     // Get User
-    github.user.getFrom({user: username}, (error, user) => {
+    github.user.getFrom({
+      user: username
+    }, (error, user) => {
       if (error) {
         return fn(error);
       }
 
       // Get all Repositories
-      let pages = range(1, parseInt(user.public_repos/githubPageSize)+2, 1);
+      let pages = range(1, parseInt(user.public_repos / githubPageSize) + 2, 1);
       async.map(pages, (page, cb) => {
         github.repos.getFromUser({
           user: username,
@@ -72,11 +84,11 @@ io.on('connection', function(socket){
         });
 
         // Remove forks
-        // _.remove(repos, {fork:true});
-        // socket.emit('status', {
-        //   progress: 0,
-        //   message: 'Removed forked repositories'
-        // });
+        _.remove(repos, {fork:true});
+        socket.emit('status', {
+          progress: 0,
+          message: 'Removed forked repositories'
+        });
 
         // Get languages for Repositories
         let completedCount = 0;
@@ -92,7 +104,7 @@ io.on('connection', function(socket){
             completedCount++;
 
             socket.volatile.emit('status', {
-              progress: completedCount/repos.length,
+              progress: completedCount / repos.length,
               completed: completedCount,
               total: repos.length,
               message: `Processed repository '${repo.name}'`,
@@ -122,9 +134,29 @@ io.on('connection', function(socket){
     });
   });
 
+
+  socket.on('job-search', (keywords = [], fn) => {
+    db.search({
+      index: 'combined_jobs',
+      body: {
+        query: {
+          match: {
+            "_all": keywords.join(' ')
+          }
+        }
+      }
+    }, (error, results) => {
+      if (error) {
+        return fn(error);
+      }
+      return fn(null, results.hits);
+    });
+
+  });
+
 });
 
-http.listen(3000, function(){
+http.listen(3000, function() {
   console.log('listening on *:3000');
 });
 
@@ -134,8 +166,8 @@ http.listen(3000, function(){
 // http://davidarvelo.com/blog/array-number-range-sequences-in-javascript-es6/
 // create a generator function returning an
 // iterator to a specified range of numbers
-function* range (begin, end, interval = 1) {
-    for (let i = begin; i < end; i += interval) {
-        yield i;
-    }
+function* range(begin, end, interval = 1) {
+  for (let i = begin; i < end; i += interval) {
+    yield i;
+  }
 }

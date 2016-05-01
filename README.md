@@ -4,16 +4,18 @@
 ## Installation
 
 1. Clone this repository!
-2. `pip install -r requirements.txt`
-3. Profit
+2. Python dependencies: `pip install -r requirements.txt`
+3. Bower: `npm install -g bower`
+4. Node.js dependencies: `npm install` and then `bower install`
+5. Profit
 
 ## Usage
 
 ```bash
-python server
+npm start
 ```
 
-Then go to [http://127.0.0.1:5000/](http://127.0.0.1:5000/).
+Then go to [http://127.0.0.1:3000/](http://127.0.0.1:3000/).
 
 ## Contributing
 
