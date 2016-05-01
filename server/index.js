@@ -135,13 +135,14 @@ io.on('connection', function(socket) {
   });
 
 
-  socket.on('job-search', (keywords = [], fn) => {
+  socket.on('job-search', (query='', fn) => {
     db.search({
       index: 'combined_jobs',
+      size: 100,
       body: {
         query: {
           match: {
-            "_all": keywords.join(' ')
+            "_all": query
           }
         }
       }

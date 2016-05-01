@@ -75,7 +75,7 @@ $(document).ready(function() {
 
   });
 
-  $('input#github-username').keyup(function(event) {
+  $('input#github-username').keyup(_.debounce(function(event) {
     tabPanes.github.removeClass('invalid-username valid-username').addClass('checking-username');
     let username = $(this).val().trim();
     // console.log(username);
@@ -90,7 +90,7 @@ $(document).ready(function() {
         tabPanes.github.removeClass('checking-username invalid-username').addClass('valid-username');
       }
     });
-  });
+  },100));
 
   $('#import-json-resume-file').change((event) => {
     let $el = $(event.currentTarget);
@@ -106,6 +106,32 @@ $(document).ready(function() {
     };
     reader.readAsText(file);
   });
+
+  const $jobSearchInput = $('#job-search-query');
+  $('.use-resume-btn').click((event) => {
+    console.log(data);
+    let keywords = Object.keys(data.langMap || {});
+    let query = keywords.join(', ');
+    $jobSearchInput.val(query);
+    $jobSearchInput.keyup();
+    console.log(query);
+  });
+
+  $jobSearchInput.keyup(_.debounce(function(event) {
+    let query = $jobSearchInput.val();
+    socket.emit('job-search', query, function(error, results) {
+      console.log('job-search', error, results);
+      let source = $('#jobs-template').html();
+      let template = Handlebars.compile(source);
+      let context = {
+        jobs: results.hits
+      };
+      let html = template(context);
+      // console.log('html', html);
+      $('.job-results').html(html);
+    });
+  },100));
+
 
   function projectsByLanguage(projects) {
     var langMap = {};
