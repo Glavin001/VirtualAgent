@@ -56,7 +56,7 @@
 
 \newcommand{\cvitemskill}[1]{%
   \ifthenelse{\equal{\string true}{\string true}}
-%    {{\textit{\color{awesome}#1}}}
+%    {\textit{\color{awesome}#1}}
     {\textit{#1}}
     {#1}%
 }
@@ -66,22 +66,23 @@
 %	PERSONAL INFORMATION
 %	Comment any of the lines below if they are not required
 %-------------------------------------------------------------------------------
-\name{Glavin}{Wiechert}
-\position{Software Developer}
-\address{Apt. 306, 1367 Cole Harbour Road, Dartmouth, Nova Scotia, Canada, B2V 1N5}
+\name{ {{user.basics.name}} }{}
+\position{ {{user.basics.label}} }
+\address{ {{user.basics.location.address}}, {{user.basics.location.city}}, {{user.basics.location.region}}, {{user.basics.location.countryCode}}, {{user.basics.location.postalCode}} }
 
-\mobile{(902) 225-7035} 
-\email{glavin.wiechert@gmail.com}
-%\homepage{glavin.org}
-\github{https://github.com/Glavin001}
-\linkedin{https://ca.linkedin.com/in/glavin}
+\mobile{ {{user.basics.phone}} }
+\email{ {{user.basics.email}} }
+\homepage{ {{user.basics.website}} }
+\github{posquit0}
+\linkedin{posquit0}
 % \stackoverflow{SO-id}{SO-name}
 % \twitter{@twit}
 % \skype{skype-id}
 % \reddit{reddit-id}
 % \extrainfo{extra informations}
 
-%\quote{``I want to put a ding in the universe."}
+% \quote{ {{user.basics.summary}} }
+
 
 
 %-------------------------------------------------------------------------------
@@ -94,7 +95,7 @@
 % Leave any of these blank if they are not needed
 \makecvfooter
   {\today}
-  {Glavin Wiechert~~~·~~~Résumé}
+  { {{user.basics.name}} ~~~·~~~Résumé}
   {\thepage}
 
 
@@ -103,11 +104,11 @@
 %	Each section is imported separately, open each file in turn to modify content
 %-------------------------------------------------------------------------------
 %\input{resume/summary.tex}
-\ifbool{acvShowSkills}{\input{resume/skills.tex}}{}
-\input{resume/experience.tex}
-\input{resume/education.tex}
-%\input{resume/extracurricular.tex}
-\input{resume/honors.tex}
+% \ifbool{acvShowSkills}{\input{resume/skills.tex}}{}
+% \input{resume/experience.tex}
+% \input{resume/education.tex}
+% %\input{resume/extracurricular.tex}
+% \input{resume/honors.tex}
 %\input{resume/presentation.tex}
 %\input{resume/writing.tex}
 %\input{resume/committees.tex}
