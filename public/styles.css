@@ -1,0 +1,35 @@
+body {
+
+}
+
+.background-video #player {
+    /* Full screen */
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+
+    /* Blur */
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+}
+
+.tab-content {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  /* Colors */
+  color: white;
+  background-color: rgba(0,0,0,0.2);
+}
+
+.tab-content .tab-pane {
+  margin-top: 40vh;
+  text-align: center;
+  width: 500px;
+  /* Center DIV block: http://www.thesitewizard.com/css/center-div-block.shtml */
+  margin-left: auto;
+  margin-right: auto;
+}
