@@ -29,14 +29,20 @@ def getUniqueAttributes(Feed, key, allowDuplicates = True):
 
 	for post in Feed.entries:
 
-		if key in post:
+		if 'category' not in post:
+			continue
+		if 'location' not in post:
+			continue
+		elif key in post:
 			if not allowDuplicates:
 				uniqueAttributes.add(post[key.encode('utf-8')])
 			else:
 				uniqueAttributes.append(post[key.encode('utf-8')])
-		else:
-			if key == 'location':
-				uniqueAttributes.append('N/A')
+		#else:
+		#	if key == 'location':
+		#		uniqueAttributes.append('N/A')
+		#	if key == 'category':
+		#		uniqueAttributes.append('N/A')
 	return uniqueAttributes
 
 #Initialize feed
@@ -48,7 +54,7 @@ relevant categories are in respective sets avoiding duplicates
 """
 
 categories = list(getUniqueAttributes(myFeed, 'category'))
-
+#print len(categories)
 titles = list(getUniqueAttributes(myFeed, 'title'))
 
 links = list(getUniqueAttributes(myFeed, 'link'))
@@ -63,8 +69,8 @@ updated = list(getUniqueAttributes(myFeed, 'updated'))
 
 descriptions = list(getUniqueAttributes(myFeed, 'description'))
 
-
-
+for des in descriptions:
+	pass
 
 """
 Author: Conor Scott
@@ -103,6 +109,26 @@ def getUniqueSkills(skills):
 			a.add(item)
 	return a
 
+allCategories = set(categories + list(tags))
+
+actualCategories = []
+
+for index, description in enumerate(descriptions):
+	currentCategories = []
+	for category in allCategories:
+		if description.find(category) != -1:
+			currentCategories.append(category)		
+	actualCategories.append(currentCategories)
+
+#print len(categories) = 949
+#print len(tags) = 1000
+#print len(allCategories) = 1110
+#print allCategories
+#print allCategories
+
+#print allCategories
+
+
 #Get Aaron's Skills from his resume
 #uniqueSkills = getUniqueSkills(getSkills(loadResume("\data\\resumes\\aaron.json")))
 
@@ -112,7 +138,6 @@ uniques = sorted(list(set(categories) | set(tags)))
 
 jobpostings = [titles, descriptions, dates, locations, authors, links]
 jobpostingslengths = [len(jobpostings[i]) for i in range(0, len(jobpostings))]
-#print jobpostingslengths
 jobkeys = ["title", "description", "date_created", "full_time", "location", "company_name", "source", "apply", "post_url"]
 
 
@@ -132,29 +157,26 @@ mainJobMap = {}
 jobMap = {}
 job_list = []
 
-with open(p + "\data\jobs.json", 'w') as f:
+for i in range(0, len(titles)):
+	
+	s = {}
 
-	for i in range(0, len(titles)):
-		
-		s = {}
+	s['title'] = jobpostings[0][i].encode('utf-8')
+	s['description'] = jobpostings[1][i].encode('utf-8') + os.linesep.encode('utf-8' ) + os.linesep.encode('utf-8') + 'This job is looking for: '.encode('utf-8') + ', '.encode('utf-8').join(actualCategories[i]).encode('utf-8')
+	s['date_created'] = jobpostings[2][i].encode('utf-8')
+	s['full_time'] = "N/A"
+	s['location'] = jobpostings[3][i].encode('utf-8')
+	s['company_name'] = jobpostings[4][i].encode('utf-8')
+	s['company_url'] = "N/A"
+	s['source'] = "StackOverflow Job Postings"
+	s['apply'] = "how to contact and apply"
+	s['post_url'] = jobpostings[5][i].encode('utf-8')
 
-		s['title'] = jobpostings[0][i].encode('utf-8')
-		s['description'] = jobpostings[1][i].encode('utf-8')
-		s['date_created'] = jobpostings[2][i].encode('utf-8')
-		s['full_time'] = "N/A"
-		s['location'] = jobpostings[3][i].encode('utf-8')
-		s['company_name'] = jobpostings[4][i].encode('utf-8')
-		s['company_url'] = "N/A"
-		s['source'] = "StackOverflow Job Postings"
-		s['apply'] = "how to contact and apply"
-		s['post_url'] = jobpostings[5][i].encode('utf-8')
+	job_list.append(s)
 
-		job_list.append(s)
-
-	#mainJobMap['jobs'] = jobMap
-	#jsonString = json.dumps(job_list)
-	#f.write(jsonString)
-	f.close()
+#mainJobMap['jobs'] = jobMap
+#jsonString = json.dumps(job_list)
+#f.write(jsonString)
 
 PATH_TO_DATA = os.getcwd()[:-7] + 'data/'
 
