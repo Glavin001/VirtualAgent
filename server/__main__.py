@@ -13,13 +13,34 @@ def root():
     return app.send_static_file('index.html')
 
 # API
-@app.route("/api/user/<username>", methods=['GET', 'POST'])
-def download_user(username):
+userInfoCache = {}
+
+@app.route("/api/user/<username>", methods=['GET'])
+def user_info(username):
+    print(username)
+
+    if username in userInfoCache:
+        return json.dumps(userInfoCache[username])
+    else:
+        return json.dumps({
+        'error': 'User not found!'
+        }), 404
+
+
+@app.route("/api/user/<username>", methods=['POST'])
+def sync_user(username):
     print(username)
 
     # Get all repositories
     projects = []
-    for repo in g.get_user(username).get_repos():
+    user = g.get_user(username);
+    userInfoCache[username] = {
+        'synced_repos': 0,
+        'url': user.url,
+        'public_repos': user.public_repos,
+        'projects': projects
+    }
+    for repo in user.get_repos():
         # Get languages for repositories
         langs = repo.get_languages();
         # print(repo.name)
@@ -30,8 +51,10 @@ def download_user(username):
             'language': repo.language,
             'languages': langs
         }
-        print(proj)
         projects.append(proj)
+        userInfoCache[username]['synced_repos'] += 1
+        print(proj)
+        print(userInfoCache[username])
 
     # 'Username %s' % username
     return json.dumps(projects)
