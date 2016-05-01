@@ -5,10 +5,10 @@ a:not(.btn) {
 }
 img.logo {
     /*background-color: rgba(255, 255, 255, 0.7);*/
-    border-radius: 5px;
-    margin: 0px;
+    /*border-radius: 5px;*/
+    /*margin: 0px;*/
     height: 50px;
-    padding: 5px;
+    /*padding: 5px;*/
 }
 .background-video #player {
     /* Full screen */
