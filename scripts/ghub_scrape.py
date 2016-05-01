@@ -5,57 +5,46 @@ import string
 
 PATH_TO_DATA = os.getcwd()[:-7] + 'data/'
 
-# Load skill-map.json
-
-with open(PATH_TO_DATA + 'skill-map.json') as data_file:
-	data = json.load(data_file)
-
-
-skill_list = []
-
-for entry in data:
-
-	skill_list.append(entry.encode('utf-8'))
-
 def get_jobs(page=0):
 	''' Returns all jobs on a specified github careers page as a json object.
 	'''
 
 	response = urllib2.urlopen('https://jobs.github.com/positions.json' + '?page=' + str(page))
 	json_object = json.load(response)
+	for job in json_object:
+		job.pop("company_logo", None)
+		job.pop("id", None)
+		if job['type'] == 'Full Time':
+			job['full-time'] = True
+		job.pop("type", None)
+		job['company_name'] = job['company']
+		job.pop("company", None)
+		job['data_created'] = job['created_at']
+		job.pop("created_at", None)
+		job['post_url'] = job['url']
+		job.pop("url", None)
+		job['source'] = 'GitHub Careers'
+		job['apply'] = job['how_to_apply']
+		job.pop("how_to_apply", None)
 
 	return json_object
 
-def get_description(json_job):
-	''' Extracts and returns the description text from a json_job as a string.
-	'''
-
-	description_text = json_job['description']
-
-	return description_text.encode('utf-8')
-
-def get_keywords(text, key_words_list):
-	''' Return a list of the keywords found in the text that also appear in the given key word list. 
-	'''
-
-	found_words = []
-
-	for word in key_words_list:
-		if word in text:
-			found_words.append(word)
-
-	return found_words
-
 def get_all_jobs():
 
+	job_list = []
 	index = 0
 	while get_jobs(index) != []:
 
-		get_jobs(index)
+		job_list.extend(get_jobs(index))
+		index += 1
 
-	return 'none'
+	return job_list
 
-print type(get_jobs()[0])
+with open(PATH_TO_DATA + 'GitHub_Jobs.json', 'w') as outfile:
+
+    json.dump(get_all_jobs(), outfile)
+
+
 
 
 
