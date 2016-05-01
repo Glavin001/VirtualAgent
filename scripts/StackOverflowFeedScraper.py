@@ -18,19 +18,24 @@ def initializeFeed(link):
 	return feed
 
 #Get unique attributes of a type, e.g. 'title' or 'category' as a valid key 
-def getUniqueAttributes(Feed, key, allowDuplicates = False):
+def getUniqueAttributes(Feed, key, allowDuplicates = True):
 	uniqueAttributes = None
 	if allowDuplicates:
 		uniqueAttributes = []
 	else:
 		uniqueAttributes = set()
 
+
 	for post in Feed.entries:
+
 		if key in post:
 			if not allowDuplicates:
-				uniqueAttributes.add((post[key.encode('utf-8')]))
+				uniqueAttributes.add(post[key.encode('utf-8')])
 			else:
-				uniqueAttributes.append((post[key.encode('utf-8')]))
+				uniqueAttributes.append(post[key.encode('utf-8')])
+		else:
+			if key == 'location':
+				uniqueAttributes.append('N/A')
 	return uniqueAttributes
 
 #Initialize feed
@@ -41,21 +46,24 @@ Compute all unique categories of stackoverflow job postings, all
 relevant categories are in respective sets avoiding duplicates
 """
 
-categories = getUniqueAttributes(myFeed, 'category')
+categories = list(getUniqueAttributes(myFeed, 'category'))
 
-titles = getUniqueAttributes(myFeed, 'title')
+titles = list(getUniqueAttributes(myFeed, 'title'))
 
-link = getUniqueAttributes(myFeed, 'link')
+links = list(getUniqueAttributes(myFeed, 'link'))
 
-locations = getUniqueAttributes(myFeed, 'location')
+locations = list(getUniqueAttributes(myFeed, 'location'))
 
-dates = getUniqueAttributes(myFeed, 'date')
+dates = list(getUniqueAttributes(myFeed, 'date'))
 
-authors = getUniqueAttributes(myFeed, 'author')
+authors = list(getUniqueAttributes(myFeed, 'author'))
 
-updated = getUniqueAttributes(myFeed, 'updated')
+updated = list(getUniqueAttributes(myFeed, 'updated'))
 
-descriptions = getUniqueAttributes(myFeed, 'description')
+descriptions = list(getUniqueAttributes(myFeed, 'description'))
+
+
+
 
 """
 Author: Conor Scott
@@ -101,6 +109,12 @@ def getUniqueSkills(skills):
 
 uniques = sorted(list(set(categories) | set(tags)))
 
+jobpostings = [titles, descriptions, dates, locations, authors, links]
+jobpostingslengths = [len(jobpostings[i]) for i in range(0, len(jobpostings))]
+#print jobpostingslengths
+jobkeys = ["title", "description", "date_created", "full_time", "location", "company_name", "source", "apply", "post_url"]
+
+
 nonUTF8 = []
 with open('stackoverflow_unique_values.json', 'w') as f:
 	f.write("[")
@@ -110,4 +124,26 @@ with open('stackoverflow_unique_values.json', 'w') as f:
 			f.write(a + "]")
 		else:
 			f.write('"' + a + '"' + ", ")
+	f.close()
+
+with open('stackoverflowjobpostings.json', 'w') as f:
+	
+	for i in range(0, len(titles)):
+		f.write("{")
+
+
+		f.write('"title": ' + '"' + jobpostings[0][i].encode('utf-8') + '",')
+		f.write('"description": ' + '"' + jobpostings[1][i].encode('utf-8') + '",')
+		f.write('"date_created": ' + '"' + jobpostings[2][i].encode('utf-8') + '",')
+		f.write('full_time: "N/A",')
+		f.write('"location": ' + '"' + jobpostings[3][i].encode('utf-8') + '",')
+		f.write('"company_name": ' + '"' + jobpostings[4][i].encode('utf-8') + '",')
+		f.write('"company_url": "N/A",')
+		f.write('"source": "StackOverflow Job Postings"')
+		f.write('"apply": "how to contact and apply"')
+		f.write('"post_url": ' + '"' + jobpostings[5][i].encode('utf-8') + '"')
+		if i != len(titles)-1:
+			f.write("}, ")
+		else:
+			f.write("}")
 	f.close()
