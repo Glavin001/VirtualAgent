@@ -54,7 +54,7 @@
 \RequirePackage{ragged2e}
 % Needed to configure page layout
 \RequirePackage{geometry}
-% Needed to make header & footer effeciently
+% Needed to make header \& footer effeciently
 \RequirePackage{fancyhdr}
 % Needed to manage colors
 \RequirePackage{xcolor}
@@ -102,12 +102,12 @@
 % Configure page margins with geometry
 \geometry{left=2.0cm, top=1.5cm, right=2.0cm, bottom=2.0cm, footskip=.5cm}
 
-%% Header & Footer
+%% Header \& Footer
 % Set offset to each header and footer
 \fancyhfoffset{0em}
 % Remove head rule
 \renewcommand{\headrulewidth}{0pt}
-% Clear all header & footer fields
+% Clear all header \& footer fields
 \fancyhf{}
 % Enable if you want to make header or footer using fancyhdr
 \pagestyle{fancy}
@@ -549,8 +549,8 @@
   \setlength{\extrarowheight}{0pt}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
     \ifempty{#2#3}
-      {\entrypositionstyle{#1} & \entrydatestyle{#4} \\}
-      {\entrytitlestyle{#1} & \entrylocationstyle{#4} \\
+      {\entrypositionstyle{#1} \& \entrydatestyle{#4} \\}
+      {\entrytitlestyle{#1} \& \entrylocationstyle{#4} \\
       \entrypositionstyle{#2}, \entrydatestyle{#3}}
     \ifbool{acvShowExperienceDescription}{
         \ifempty{#5}
@@ -573,11 +573,11 @@
   \setlength{\extrarowheight}{0pt}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
     \setlength\leftskip{0.2cm}
-    \subentrytitlestyle{#2} & \ifthenelse{\equal{#1}{}}
+    \subentrytitlestyle{#2} \& \ifthenelse{\equal{#1}{}}
       {\subentrydatestyle{#3}}{} 
     \ifthenelse{\equal{#1}{}}
       {}
-      {\subentrypositionstyle{#1} & \subentrydatestyle{#3} \\}
+      {\subentrypositionstyle{#1} \& \subentrydatestyle{#3} \\}
     \ifthenelse{\equal{#4}{}}
       {}
       {\multicolumn{2}{L{17.0cm}}{\subdescriptionstyle{#4}} \\}
@@ -599,7 +599,7 @@
 % Define a line of cv information(honor, award or something else)
 % Usage: \cvhonor{<position>}{<title>}{<location>}{<date>}
 \newcommand*{\cvhonor}[4]{%
-  \honordatestyle{#4} & \honorpositionstyle{#1}, \honortitlestyle{#2} & \honorlocationstyle{#3} \\
+  \honordatestyle{#4} \& \honorpositionstyle{#1}, \honortitlestyle{#2} \& \honorlocationstyle{#3} \\
 }
 
 % Define an environment for cvskill
@@ -617,7 +617,7 @@
 % Define a line of cv information(skill)
 % Usage: \cvskill{<type>}{<skillset>}
 \newcommand*{\cvskill}[2]{%
-	\skilltypestyle{#1} & \skillsetstyle{#2} \\
+	\skilltypestyle{#1} \& \skillsetstyle{#2} \\
 }
 
 % Define an environment for cvitems(for cventry)
@@ -660,7 +660,7 @@
   \setlength\tabcolsep{0pt}
   \setlength{\extrarowheight}{0pt}
   \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
-    \recipienttitlestyle{\@recipientname} & \letterdatestyle{\@letterdate}
+    \recipienttitlestyle{\@recipientname} \& \letterdatestyle{\@letterdate}
   \end{tabular*}
   \begin{singlespace}
     \recipientaddressstyle{\@recipientaddress} \\\\

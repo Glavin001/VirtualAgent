@@ -4,6 +4,8 @@ const Handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
+const mkdirp = require('mkdirp');
+const exec = require('child_process').exec;
 
 let user = {
   "basics": {
@@ -101,9 +103,7 @@ let user = {
 let job = {
   'title': 'Front End Web Developer',
   'source': 'GitHub Careers',
-  'company': {
-    'name': 'GitHub'
-  }
+  'company_name': 'GitHub'
 };
 let context = {
   user,
@@ -121,8 +121,10 @@ const renderTemplate = (templatePath, context) => {
             return reject(err);
           }
           // Pick random from list
-          var file = files[Math.floor(Math.random() * files.length)];
-          return resolve(path.resolve(dirPath, file));
+          let file = files[Math.floor(Math.random() * files.length)];
+          filePath = path.resolve(dirPath, file);
+          console.log(`Using ${filePath}`);
+          return resolve(filePath);
         })
       } else {
         return resolve(filePath);
@@ -186,14 +188,75 @@ const renderCoverLetter = (context) => {
           thanks
         }
       });
-    })
-    .then((coverLetter) => {
-      console.log(coverLetter);
-    })
-    .catch((error) => {
-      console.log('Error: ', error);
     });
 
 };
 
-renderCoverLetter(context);
+
+const generateCoverLetter = (username, context) => {
+  let userDir = path.resolve(__dirname, '../build/', username);
+
+  return new Promise((resolve, reject) => {
+      // Make directory for Username
+      mkdirp(userDir, {
+        mode: '0777',
+      }, (err) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(userDir);
+      });
+    })
+    .then(() => {
+      // Generate Cover Letter
+      console.log('Generating cover letter');
+      return renderCoverLetter(context);
+    })
+    .then((coverLetter) => {
+      console.log('Have cover letter!');
+      return new Promise((resolve, reject) => {
+        // Write cover letter to file
+        let coverLetterPath = path.resolve(userDir, 'cover-letter.tex');
+        fs.writeFile(coverLetterPath, coverLetter, (err) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(coverLetterPath);
+        });
+      });
+    })
+    .then((coverLetterPath) => {
+      // Cover LaTeX to PDF
+      console.log('Generating PDF');
+      return new Promise((resolve, reject) => {
+        let args = ['-interaction=nonstopmode', `-output-directory="${path.dirname(coverLetterPath)}"`, `"${coverLetterPath}"`];
+        let cwd = path.resolve(__dirname, '../template/');
+        let cmd = `xelatex ${args.join(' ')}`;
+        // console.log('args', args, cwd);
+        console.log(cmd);
+        exec(cmd, {
+          cwd: cwd
+        }, (error, stdout, stderr) => {
+          console.log(error);
+          console.log(stdout);
+          console.log(stderr);
+          if (error) {
+            return reject(error);
+          }
+          return resolve();
+        });
+        // call(["xelatex", "-output-directory=" + os.path.abspath('build/' + username + '/'), "cover-letter.tex"], cwd = os.path.abspath('template/'))
+        // call(["convert", "-density", "300", os.path.abspath('build/' + username + '/cover-letter.pdf'), "-quality", "100", os.path.abspath('build/' + username + '/cover-letter.png')])
+      });
+
+    });
+
+};
+
+generateCoverLetter('john-doe', context)
+.then(() => {
+  console.log('Done!');
+})
+.catch((error) => {
+  console.log(error);
+});

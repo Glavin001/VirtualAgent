@@ -51,13 +51,13 @@
 %	PERSONAL INFORMATION
 %	Comment any of the lines below if they are not required
 %-------------------------------------------------------------------------------
-\name{Claud D.}{Park}
-\position{Software Engineer{\enskip\cdotp\enskip}Security Expert}
-\address{246-1002, Gwangmyeongmayrouge Apt. 86, Cheongna lime-ro, Seo-gu, Incheon-si, 404-180, Rep. of KOREA}
+\name{ {{user.basics.name}} }{}
+\position{ {{user.basics.label}} }
+\address{ {{user.basics.location.address}}, {{user.basics.location.city}}, {{user.basics.location.region}}, {{user.basics.location.countryCode}}, {{user.basics.location.postalCode}} }
 
-\mobile{(+82) 10-9030-1843}
-\email{posquit0.bj@gmail.com}
-\homepage{www.posquit0.com}
+\mobile{ {{user.basics.phone}} }
+\email{ {{user.basics.email}} }
+\homepage{ {{user.basics.website}} }
 \github{posquit0}
 \linkedin{posquit0}
 % \stackoverflow{SO-id}{SO-name}
@@ -66,7 +66,7 @@
 % \reddit{reddit-id}
 % \extrainfo{extra informations}
 
-\quote{``Must be the change that you want to see in the world."}
+\quote{ {{user.basics.summary}} }
 
 
 %-------------------------------------------------------------------------------
@@ -80,7 +80,7 @@
 % The date on the letter, default is the date of compilation
 \letterdate{\today}
 % The title of the letter
-\lettertitle{Job Application for Software Engineer}
+\lettertitle{Job Application for {{job.title}} }
 % How the letter is opened
 \letteropening{Dear Mr./Ms./Dr. LastName,}
 % How the letter is closed
@@ -110,17 +110,17 @@
 %-------------------------------------------------------------------------------
 \begin{cvletter}
 
-{{paragraphs.intro}}
+{{{paragraphs.intro}}}
 
-{{paragraphs.company}}
+{{{paragraphs.company}}}
 
-{{paragraphs.skills}}
+{{{paragraphs.skills}}}
 
-{{paragraphs.work}}
+{{{paragraphs.work}}}
 
-{{paragraphs.volunteer}}
+{{{paragraphs.volunteer}}}
 
-{{paragraphs.thanks}}
+{{{paragraphs.thanks}}}
 
 \end{cvletter}
 
