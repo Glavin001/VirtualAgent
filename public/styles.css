@@ -4,7 +4,7 @@ a:not(.btn) {
     font-weight: bold;
 }
 img.logo {
-    background-color: rgba(255, 255, 255, 0.7);
+    /*background-color: rgba(255, 255, 255, 0.7);*/
     border-radius: 5px;
     margin: 0px;
     height: 50px;

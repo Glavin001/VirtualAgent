@@ -2,7 +2,7 @@
 data/resumes/
 *.pdf
 *.png
-!public/images/Simply_Sift.png
+!public/images/*.png
 *.out
 bower_components/
 
