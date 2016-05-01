@@ -116,7 +116,8 @@ jobkeys = ["title", "description", "date_created", "full_time", "location", "com
 
 
 nonUTF8 = []
-with open('stackoverflow_unique_values.json', 'w') as f:
+p = os.path.abspath('..')
+with open(p + "\data\\stackoverflow_unique_values.json", 'w') as f:
 	f.write("[")
 	for index, tag in enumerate(uniques):
 		a = tag.decode('utf-8')
@@ -126,24 +127,35 @@ with open('stackoverflow_unique_values.json', 'w') as f:
 			f.write('"' + a + '"' + ", ")
 	f.close()
 
-with open('stackoverflowjobpostings.json', 'w') as f:
-	
+mainJobMap = {}
+jobMap = {}
+s = ""
+with open(p + "\data\\jobs.json", 'w') as f:
+	s += ('"jobs": [')
+
 	for i in range(0, len(titles)):
-		f.write("{")
+
+		
+		s+="{"
 
 
-		f.write('"title": ' + '"' + jobpostings[0][i].encode('utf-8') + '",')
-		f.write('"description": ' + '"' + jobpostings[1][i].encode('utf-8') + '",')
-		f.write('"date_created": ' + '"' + jobpostings[2][i].encode('utf-8') + '",')
-		f.write('full_time: "N/A",')
-		f.write('"location": ' + '"' + jobpostings[3][i].encode('utf-8') + '",')
-		f.write('"company_name": ' + '"' + jobpostings[4][i].encode('utf-8') + '",')
-		f.write('"company_url": "N/A",')
-		f.write('"source": "StackOverflow Job Postings"')
-		f.write('"apply": "how to contact and apply"')
-		f.write('"post_url": ' + '"' + jobpostings[5][i].encode('utf-8') + '"')
+		s += '"title": ' + '"' + jobpostings[0][i].encode('utf-8') + '", '
+		s += '"description": ' + '"' + jobpostings[1][i].encode('utf-8') + '", '
+		s += '"date_created": ' + '"' + jobpostings[2][i].encode('utf-8') + '", '
+		s += '"full_time": "N/A", '
+		s += '"location": ' + '"' + jobpostings[3][i].encode('utf-8') + '", '
+		s += '"company_name": ' + '"' + jobpostings[4][i].encode('utf-8') + '", '
+		s += '"company_url": "N/A", '
+		s += '"source": "StackOverflow Job Postings", '
+		s += '"apply": "how to contact and apply", '
+		s += '"post_url": ' + '"' + jobpostings[5][i].encode('utf-8') + '"'
 		if i != len(titles)-1:
-			f.write("}, ")
+			s += "}, "
 		else:
-			f.write("}")
+			s += "}"
+
+	s += "]"
+	mainJobMap['jobs'] = jobMap
+	jsonString = json.dumps(s)
+	f.write(jsonString)
 	f.close()

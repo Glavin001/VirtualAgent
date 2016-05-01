@@ -12,9 +12,10 @@ Requirements: just python (comes with json)
 """
 import json, os
 p = os.path.abspath('..')
-jsonObject = json.load(open(p + "\data\\tags.json", 'r'))
+jsonObject = json.load(open(p + "\data\\jobs.json", 'r'))
+
 tags = set()
-for dictionary in jsonObject['items']:
+for dictionary in jsonObject['jobs']:
     for key in dictionary:
         if key == 'name':
             tags.add(dictionary[key])
