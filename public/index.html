@@ -34,24 +34,50 @@
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade in active" id="home">
+
+        <div role="tabpanel" class="tab-pane fade in active" id="intro">
 
             <h1>Welcome to Simply Sift</h1>
             <p>Let this be the <strong>last</strong> time you write a job-specific Resume and Cover Letter again.</p>
             <a class="btn btn-primary" data-toggle="tab" href="#github">Continue</a>
 
         </div>
-        <div role="tabpanel" class="tab-pane fade" id="github">
 
-          <label for="basic-url">Your GitHub Username</label>
+        <div role="tabpanel" class="tab-pane fade invalid-username" id="github">
+
+          <label for="basic-url">Enter a GitHub Username</label>
           <div class="input-group">
-            <span class="input-group-addon" id="basic-addon3">https://github.com/</span>
-            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Glavin001">
+            <span class="input-group-addon input-group-addon-front">https://github.com/</span>
+            <input type="text" class="form-control" id="github-username" aria-describedby="basic-addon3" placeholder="Glavin001">
+            <span class="input-group-addon input-group-addon-back">
+              <i class="glyphicon glyphicon-ok"></i>
+              <i class="glyphicon glyphicon-remove"></i>
+              <i class="glyphicon glyphicon-refresh"></i>
+            </span>
           </div>
-
-          <button class="btn btn-primary sync-github-btn">Look me up!</button>
-
+          <br>
+          <div class="row github-user-preview">
+            <div class="col-sm-6">
+              <div class="caption">
+                <h3>
+                  <span class="github-user-full-name">Glavin Wiechert</span>
+                  <a href="" class="github-user-url" target="_blank">
+                    <i class="glyphicon glyphicon-link"></i>
+                  </a>
+                </h3>
+                <p>
+                  <button class="btn btn-success sync-github-btn">That's right, next!</button>
+                </p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <a class="thumbnail github-user-url" target="_blank">
+                <img class="github-user-avatar" src="https://avatars.githubusercontent.com/u/1885333?v=3" alt="...">
+              </a>
+            </div>
+          </div>
         </div>
+
         <div role="tabpanel" class="tab-pane fade" id="syncing">
           <div class="spinner">
             <div class="dot1"></div>
@@ -59,15 +85,22 @@
           </div>
 
           <p>Please be patient while I learn more about what makes you great!</p>
-          <br>
+          <hr>
+          <p class="status-message"></p>
           <div class="progress">
-            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-              <span class="sr-only">45% Complete</span>
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+              <span class="sr-only">0% Complete</span>
             </div>
           </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="jsonresume">
+          <h1>Let's import your <a href="https://jsonresume.org/" target="_blank">JSON Resume!</h1>
+          <p>JSON Resume is a standard created to empower developers.</p>
+          <a class="btn btn-primary" data-toggle="tab" href="#github">Import all the things!</a>
 
         </div>
-        <div role="tabpanel" class="tab-pane fade" id="settings">...</div>
+
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -75,6 +108,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.2/lodash.min.js"></script>
 
     <script>
         // 2. This code loads the IFrame Player API code asynchronously.
@@ -126,6 +160,11 @@
         function stopVideo() {
             player.stopVideo();
         }
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
     </script>
     <script src="main.js"></script>
 
