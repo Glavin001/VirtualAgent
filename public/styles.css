@@ -1,5 +1,7 @@
-body {
-
+a:not(.btn) {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: bold;
 }
 
 .background-video #player {
@@ -7,7 +9,6 @@ body {
     height: 100vh;
     width: 100vw;
     position: absolute;
-
     /* Blur */
     -webkit-filter: blur(5px);
     -moz-filter: blur(5px);
@@ -15,21 +16,104 @@ body {
     -ms-filter: blur(5px);
     filter: blur(5px);
 }
-
 .tab-content {
-  position: absolute;
-  height: 100vh;
-  width: 100vw;
-  /* Colors */
-  color: white;
-  background-color: rgba(0,0,0,0.2);
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    /* Colors */
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.tab-content .tab-pane {
+    margin-top: 20vh;
+    text-align: center;
+    width: 500px;
+    /* Center DIV block: http://www.thesitewizard.com/css/center-div-block.shtml */
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.tab-content .tab-pane {
-  margin-top: 40vh;
-  text-align: center;
-  width: 500px;
-  /* Center DIV block: http://www.thesitewizard.com/css/center-div-block.shtml */
-  margin-left: auto;
-  margin-right: auto;
+/* GitHub Tab Pane */
+
+.tab-pane#github:not(.valid-username) .github-user-preview {
+    display: none;
+}
+.tab-pane#github:not(.valid-username) .input-group-addon .glyphicon-ok {
+    display: none;
+}
+.tab-pane#github:not(.checking-username) .input-group-addon .glyphicon-refresh {
+    display: none;
+}
+.tab-pane#github:not(.invalid-username) .input-group-addon .glyphicon-remove {
+    display: none;
+}
+.tab-pane#github .thumbnail {
+    width: 128px;
+    height: 128px;
+}
+
+/* JSON Resume tab pane */
+.tab-pane#json-resume input#import-json-resume-file {
+  display: inline-block;
+}
+.tab-pane#json-resume:not(.has-resume) .use-resume-btn {
+  display: none;
+}
+
+
+/* SpinKit: http://tobiasahlin.com/spinkit/ */
+.spinner {
+    margin: 100px auto;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    text-align: center;
+    -webkit-animation: sk-rotate 2.0s infinite linear;
+    animation: sk-rotate 2.0s infinite linear;
+}
+.dot1, .dot2 {
+    width: 60%;
+    height: 60%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    background-color: #fff;
+    border-radius: 100%;
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+}
+.dot2 {
+    top: auto;
+    bottom: 0;
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+@-webkit-keyframes sk-rotate {
+    100% {
+        -webkit-transform: rotate(360deg)
+    }
+}
+@keyframes sk-rotate {
+    100% {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg)
+    }
+}
+@-webkit-keyframes sk-bounce {
+    0%, 100% {
+        -webkit-transform: scale(0.0)
+    }
+    50% {
+        -webkit-transform: scale(1.0)
+    }
+}
+@keyframes sk-bounce {
+    0%, 100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }
+    50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
 }

@@ -37,9 +37,9 @@ with open(PATH_TO_DATA + 'Combined_Jobs.json', 'w') as outfile:
 
 # Only need to run indexing code ONCE, uncomment it if needed: be warned 66 Second run time
 
-#for i in range(len(combined_jobs)):
-
-	#es.index(index='combined_jobs', doc_type='test-type',id = i, body = combined_jobs[i])
+# for i in range(len(combined_jobs)):
+#
+# 	es.index(index='combined_jobs', doc_type='test-type',id = i, body = combined_jobs[i])
 
 # Example Query + returns highest scoring job's post formated as specified
 
