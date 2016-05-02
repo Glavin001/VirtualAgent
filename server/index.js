@@ -5,6 +5,8 @@ const GitHub = require('github');
 const async = require('async');
 const _ = require('lodash');
 const elasticsearch = require('elasticsearch');
+const path = require('path');
+const latex = require('../server/latex-renderer');
 
 // Create server
 const app = express();
@@ -32,6 +34,31 @@ app.use(express.static('public'));
 app.get('/', function(req, res) {
   res.sendfile('index.html');
 });
+
+app.use('/build', express.static(path.resolve(__dirname,'../build')));
+
+app.get('/download/:username/cover-letter.pdf', function (req, res, next) {
+  // console.log('although this matches');
+  let context = req.params;
+  latex.generateCoverLetter('john-doe', context)
+  .then(() => {
+    console.log('Done!');
+    next();
+  })
+  .catch((error) => {
+    console.log(error);
+    next();
+  });
+
+  // latex.generateResume('john-doe', context)
+  // .then(() => {
+  //   console.log('Done!');
+  // })
+  // .catch((error) => {
+  //   console.log(error);
+  // });
+
+})
 
 // Socket.io API
 io.on('connection', function(socket) {

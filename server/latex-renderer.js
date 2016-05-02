@@ -77,6 +77,7 @@ const renderCoverLetter = (context) => {
       return renderTemplate('cover-letter/template.tex', {
         user: context.user,
         job: context.job,
+        skill: context.skill,
         paragraphs: {
           intro,
           company,
@@ -114,18 +115,7 @@ const renderResume = (context) => {
     ])
     .then(([intro, company, skills, work, volunteer, thanks]) => {
       // Render 7 - Complete Cover Letter
-      return renderTemplate('resume/template.tex', {
-        user: context.user,
-        job: context.job,
-        // paragraphs: {
-        //   intro,
-        //   company,
-        //   skills,
-        //   work,
-        //   volunteer,
-        //   thanks
-        // }
-      });
+      return renderTemplate('resume/template.tex', context);
     });
 
 };

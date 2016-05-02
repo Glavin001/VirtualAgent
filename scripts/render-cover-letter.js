@@ -98,9 +98,27 @@ let job = {
   'source': 'GitHub Careers',
   'company_name': 'GitHub'
 };
+let skills = [
+  {
+    name: 'JavaScript',
+  },
+  {
+    name: 'Ember.js'
+  },
+  {
+    name: 'Travis CI'
+  },
+  {
+    name: 'CSS'
+  },
+  {
+    name: 'HTML'
+  }
+];
 let context = {
   user,
-  job
+  job,
+  skill: skills
 };
 
 
